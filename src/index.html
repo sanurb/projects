@@ -1,14 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Project's</title>
   <link rel="stylesheet" href="./index.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <script type="module" src="./index.js"></script>
 </head>
-<body>
 
+<body class="bg-midnight text-white">
+  <header-component>
+    <div class="mx-auto max-w-7xl p-4 md:p-0">
+      <div class="flex w-full flex-col items-center justify-between md:flex-row">
+        <div class="flex flex-col items-center justify-center md:flex-row md:space-x-7">
+          <div class="mt-5 flex items-center justify-center space-x-5 border-neutral-700 md:mt-0"><a
+              href="https://twitter.com/sanurdev" target="_blank"><svg width="20" height="20" stroke-width="2"
+                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" name="Twitter"
+                class="text-gray-400 transition-all duration-150 hover:text-blue-300">
+                <path
+                  d="M23 3.01s-2.018 1.192-3.14 1.53a4.48 4.48 0 00-7.86 3v1a10.66 10.66 0 01-9-4.53s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5 0-.278-.028-.556-.08-.83C21.94 5.674 23 3.01 23 3.01z"
+                  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg></a><a href="https://www.linkedin.com/in/sanurb/" target="_blank"><svg width="21" height="21"
+                stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor"
+                name="Twitter" class="text-gray-400 transition-all duration-150 hover:text-blue-500">
+                <path d="M21 8v8a5 5 0 01-5 5H8a5 5 0 01-5-5V8a5 5 0 015-5h8a5 5 0 015 5zM7 17v-7" stroke="currentColor"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M11 17v-3.25M11 10v3.75m0 0c0-3.75 6-3.75 6 0V17M7 7.01l.01-.011" stroke="currentColor"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg></a><a href="https://github.com/sanurb" target="_blank"><svg width="20" height="20" stroke-width="2"
+                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor" name="Github"
+                class="text-gray-400 transition-all duration-150 hover:text-gray-200">
+                <path
+                  d="M16 22.027v-2.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7a5.44 5.44 0 00-1.5-3.75 5.07 5.07 0 00-.09-3.77s-1.18-.35-3.91 1.48a13.38 13.38 0 00-7 0c-2.73-1.83-3.91-1.48-3.91-1.48A5.07 5.07 0 005 5.797a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7a3.37 3.37 0 00-.94 2.58v2.87M9 20.027c-3 .973-5.5 0-7-3"
+                  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg></a><a href="https://github.com/sponsors/sanurb" target="_blank"><svg width="20" height="20"
+                stroke-width="2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="currentColor"
+                name="Github Sponsors" class="text-gray-400 transition-all duration-150 hover:text-red-400">
+                <path
+                  d="M22 8.862a5.95 5.95 0 01-1.654 4.13c-2.441 2.531-4.809 5.17-7.34 7.608-.581.55-1.502.53-2.057-.045l-7.295-7.562c-2.205-2.286-2.205-5.976 0-8.261a5.58 5.58 0 018.08 0l.266.274.265-.274A5.612 5.612 0 0116.305 3c1.52 0 2.973.624 4.04 1.732A5.95 5.95 0 0122 8.862z"
+                  stroke="currentColor" stroke-linejoin="round"></path>
+              </svg></a>
+          </div>
+        </div>
+        <a href="/">
+          <div
+            class="mb-4 flex items-center space-x-3 text-gray-300 transition-all duration-200 hover:-translate-y-0.5 hover:text-gray-100 md:mb-0">
+            <img width="36" height="36" src="https://avatars.githubusercontent.com/sanurb?size=64" alt="Logo"
+              class="rounded-full">
+          </div>
+        </a>
+      </div>
+
+    </div>
+    <!-- <div class="px-6">
+      <user-card name="sanurb"></user-card>
+    </div> -->
+  </header-component>
+  <main>
+    <div class="info__container">
+      <user-info-display username="sanurb"></user-info-display>
+    </div>
+    <section class="mx-auto max-w-6xl p-4 md:p-0">
+      <github-projects username="sanurb"></github-projects>
+    </section>
+  </main>
 </body>
+
 </html>

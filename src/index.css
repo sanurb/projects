@@ -1,3 +1,27 @@
+* {
+  box-sizing: border-box;
+  position: relative;
+  min-width: 0;
+}
+
 body {
+  min-height: 100dvh;
   background: #171717;
 }
+
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* 
+.container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+} */
