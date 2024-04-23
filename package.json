@@ -19,5 +19,8 @@
     "vite-tsconfig-paths": "^4.3.2"
   },
   "keywords": [],
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "localforage": "^1.10.0"
+  }
 }

@@ -13,11 +13,8 @@ class UserInfoDisplay extends HTMLElement {
         <div class="info">
           <div class="no-print"></div>
           <h1 class="mb-4 text-3xl font-bold md:text-5xl"></h1>
-          <h2 class="text-md text-gray-300">
-            Web developer from Canary Islands interested in design, databases &amp;
-            performance.
-          </h2>
-          <span></span>
+          <h2 class="text-md text-gray-300"></h2>
+          <span class="stats text-md text-gray-300"></span>
         </div>
       </div>
     </div>`;
@@ -50,7 +47,7 @@ class UserInfoDisplay extends HTMLElement {
   updateInfo(data) {
     this.querySelector("h1").textContent = `Hi, I'm ${data.name} ✌️` || "";
     this.querySelector("h2").textContent = data.bio || "";
-    // this.querySelector(".no-print").innerHTML = "<img class=\"w-full\" alt=\"github svg\" src=\"https://stats.dooboo.io/api/github-stats?login=sanurb\">";
+    this.querySelector(".stats").innerHTML = `Repos: ${data.public_repos}`;
   }
 }
 
