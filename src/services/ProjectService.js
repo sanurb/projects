@@ -1,79 +1,84 @@
+import { dbService } from "./DatabaseService.js";
+
 class ProjectService {
   constructor() {
     this.projectData = new Map();
     this.subscribers = new Map();
-    this.fetchControllers = new Map();
   }
 
-  subscribe(username, callback) {
+  async subscribe(username, callback) {
     if (!this.subscribers.has(username)) {
       this.subscribers.set(username, new Set());
+      this.loadData(username);
     }
     this.subscribers.get(username).add(callback);
+    this.emitData(username, callback);
+  }
 
-    const existingData = this.projectData.get(username);
-    if (existingData && existingData.loaded) {
-      callback(existingData.data);
+  async loadData(username) {
+    const cachedData = await dbService.getProjects(username);
+    if (cachedData) {
+      this.projectData.set(username, { data: cachedData, loaded: true });
+      this.notifySubscribers(username, cachedData);
     } else {
-      this.fetchProjects(username, callback);
+      this.fetchProjects(username);
     }
   }
 
-  async fetchProjects(username, callback, page = 1, perPage = 30) {
-    const controller = new AbortController();
-    this.fetchControllers.set(username, controller);
-    const url = `https://api.github.com/users/${username}/repos?sort=pushed&direction=desc&page=${page}&per_page=${perPage}`;
-
+  async fetchProjects(username, page = 1, perPage = 30, accumulatedData = []) {
     try {
-      const response = await fetch(url, { signal: controller.signal });
+      const url = `https://api.github.com/users/${username}/repos?sort=pushed&direction=desc&page=${page}&per_page=${perPage}`;
+      const response = await fetch(url, { signal: AbortSignal.timeout(3000) });
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
-      if (!this.projectData.has(username)) {
-        this.projectData.set(username, { data: [], loaded: false });
-      }
-      const userData = this.projectData.get(username);
-      userData.data = userData.data.concat(data);
-      this.projectData.set(username, userData);
-      callback(userData.data);
-
+      accumulatedData = [...accumulatedData, ...data];
       if (data.length < perPage) {
-        userData.loaded = true;
+        await dbService.saveProjects(username, accumulatedData);
+        this.projectData.set(username, { data: accumulatedData, loaded: true });
+        this.notifySubscribers(username, accumulatedData);
       } else {
-        this.fetchProjects(username, callback, page + 1, perPage);
+        this.fetchProjects(username, page + 1, perPage, accumulatedData);
       }
     } catch (error) {
-      if (error.name !== "AbortError") {
-        console.error("Fetch error:", error);
-        this.notifySubscribers(username, null, error);
-      }
-    } finally {
-      this.fetchControllers.delete(username);
+      console.error("Fetch error:", error);
+      this.notifySubscribers(username, null, error);
     }
+  }
+
+  async searchProjects(query) {
+    const results = [];
+    // eslint-disable-next-line no-unused-vars
+    for (const [_username, data] of this.projectData) {
+      const filteredProjects = data.data.filter(project =>
+        project.name.toLowerCase().includes(query.toLowerCase()) ||
+            (project.description && project.description.toLowerCase().includes(query.toLowerCase()))
+      );
+      results.push(...filteredProjects);
+    }
+    return results;
   }
 
   unsubscribe(username, callback) {
-    if (this.subscribers.has(username)) {
-      const userSubscribers = this.subscribers.get(username);
-      userSubscribers.delete(callback);
-      if (userSubscribers.size === 0) {
+    const subscribers = this.subscribers.get(username);
+    if (subscribers) {
+      subscribers.delete(callback);
+      if (subscribers.size === 0) {
         this.subscribers.delete(username);
-        this.cancelFetch(username);
       }
     }
   }
 
-  cancelFetch(username) {
-    if (this.fetchControllers.has(username)) {
-      this.fetchControllers.get(username).abort();
-      this.fetchControllers.delete(username);
+  emitData(username, callback) {
+    const userData = this.projectData.get(username);
+    if (userData) {
+      callback(userData.data);
     }
   }
 
   notifySubscribers(username, data, error = null) {
-    if (this.subscribers.has(username)) {
-      for (const callback of this.subscribers.get(username)) {
-        callback(data, error);
-      }
+    const subscribers = this.subscribers.get(username);
+    if (subscribers) {
+      subscribers.forEach(callback => callback(data, error));
     }
   }
 }

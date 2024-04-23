@@ -8,6 +8,7 @@ class GitHubProjects extends HTMLElement {
   constructor() {
     super();
     this.classList.add("grid", "grid-cols-1", "gap-4", "sm:grid-cols-2");
+    window.addEventListener("search", this.handleSearch.bind(this));
   }
 
   connectedCallback() {
@@ -21,6 +22,18 @@ class GitHubProjects extends HTMLElement {
     const username = this.getAttribute("username");
     if (username) {
       projectService.unsubscribe(username, this.renderProjects.bind(this));
+    }
+  }
+
+  handleSearch(event) {
+    const query = event.detail.query;
+    if (query.length >= 3) {
+      projectService.searchProjects(query).then(results => {
+        this.renderProjects(results);
+      });
+    } else if (query.length === 0) {
+      const username = this.getAttribute("username");
+      projectService.subscribe(username, this.renderProjects.bind(this));
     }
   }
 

@@ -14,7 +14,10 @@ class UserInfoDisplay extends HTMLElement {
           <div class="no-print"></div>
           <h1 class="mb-4 text-3xl font-bold md:text-5xl"></h1>
           <h2 class="text-md text-gray-300"></h2>
-          <span class="stats text-md text-gray-300"></span>
+          <p class="mt-3 text-md text-gray-300">
+            🎯 All Of My Projects, Some useful, some stupid, all fun!
+          </p>
+          🗃️ <span class="stats text-md text-gray-300"></span>
         </div>
       </div>
     </div>`;
