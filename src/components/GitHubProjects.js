@@ -26,7 +26,7 @@ class GitHubProjects extends HTMLElement {
 
   renderProjects(projects) {
     this.innerHTML = projects.map(project => `
-      <div class="flex flex-col h-full rounded-md border border-neutral-800 p-4">
+      <div class="flex flex-col h-full rounded-md border border-neutral-800 p-4" data-primary-language="${project.language}">
         <div class="mb-2 flex items-center justify-between">
           <a href="${project.homepage || project.html_url}" target="_blank" class="group text-xl font-medium">
             <div class="flex items-center space-x-2 transition hover:text-gray-400">
@@ -41,7 +41,7 @@ class GitHubProjects extends HTMLElement {
         </div>
         <p class="text-gray-400 line-clamp-3">${project.description || "No description provided."}</p>
         <div class="mt-3 flex items-center space-x-2">
-          ${this.renderTechnologyIcons(project.languages)}
+          ${this.renderTechnologyIcons(project.language)}
         </div>
       </div>
     `).join("");
@@ -49,8 +49,9 @@ class GitHubProjects extends HTMLElement {
 
   renderTechnologyIcons(languages) {
     if (!languages) return "";
+    if (typeof languages === "string") languages = [languages];
     return languages.map(language => `
-      <span title="${language}" class="icon-${language.toLowerCase()}"></span>
+      <div title="${language}" class="truncate rounded-md border border-neutral-800 bg-neutral-900 px-2 py-1 font-mono text-xs icon-${language.toLowerCase()}">${language}</div>
     `).join("");
   }
 }
