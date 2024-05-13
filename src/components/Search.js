@@ -48,6 +48,7 @@ class SearchComponent extends HTMLElement {
         outline: none;
         border: none;
         color: var(--text-color);
+        font-family: inherit;
       }
 
       button {
